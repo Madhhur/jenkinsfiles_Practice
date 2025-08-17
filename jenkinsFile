@@ -27,22 +27,31 @@ pipeline {
         }
         stage('Sonar Code Quality check') {
             steps {
-                script {
-                    dir('./backend') {
-                 withCredentials([string(credentialsId: 'sonar_token', variable: 'SONAR_TOKEN')]) {
-    sh '''
-        /opt/sonar/latest/bin/sonar-scanner \
-        -Dsonar.projectKey=gearX_product_backend \
-        -Dsonar.sources=. \
-        -Dsonar.host.url=http://www.devopsninja.site:8880/ \
-        -Dsonar.token=$SONAR_TOKEN
-    '''
-}
+                    script {
+                        dir('./backend') {
+                            withCredentials([string(credentialsId: 'sonar_token', variable: 'SONAR_TOKEN')]) {
+                            sh '''
+                            /opt/sonar/latest/bin/sonar-scanner \
+                            -Dsonar.projectKey=gearX_product_backend \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=http://www.devopsninja.site:8880/ \
+                            -Dsonar.token=$SONAR_TOKEN
+                        '''
+                 }
 
                     }
                 }
             }
         }
+       stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+
         stage('trivy scan') {
             steps {
                 echo "Scanning the code"
