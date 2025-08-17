@@ -29,15 +29,14 @@ pipeline {
             steps {
                 script {
                     dir('./backend') {
-                    withCredentials([string(credentialsId: 'sonar_token', variable: 'SONAR_TOKEN')]) {
+                 withCredentials([string(credentialsId: 'sonar_token', variable: 'SONAR_TOKEN')]) {
     sh '''
-        sonar-scanner \
+        /opt/sonar/latest/bin/sonar-scanner \
         -Dsonar.projectKey=gearX_product_backend \
         -Dsonar.sources=. \
         -Dsonar.host.url=http://www.devopsninja.site:8880/ \
         -Dsonar.token=$SONAR_TOKEN
     '''
-
 }
 
                     }
