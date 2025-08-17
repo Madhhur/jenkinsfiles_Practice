@@ -7,11 +7,14 @@ pipeline {
             steps {
                 script {
                     // This calls your library method outside sandbox restrictions
-                    gitCheckout([
+                   def config = [
                         url: 'https://github.com/Madhhur/repo1.git',
                         branch: 'main',
                         credentialId: 'Madhhur'
-                    ])
+                        ]
+                    gitCheckout(config)
+                        
+                    
                 }
             }
         }
