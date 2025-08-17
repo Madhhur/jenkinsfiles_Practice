@@ -30,14 +30,15 @@ pipeline {
                 script {
                     dir('./backend') {
                         withCredentials([string(credentialsId: 'sonar_token', variable: 'sonar_token')]) {
-                            sh """
-                                sonar-scanner \
-                                  -Dsonar.projectKey=gearX_product_backend \
-                                  -Dsonar.sources=. \
-                                  -Dsonar.host.url=${env.SONAR_HOST_URL} \
-                                  -Dsonar.token=${sonar_token}
-                            """
-                        }
+    sh([
+        'sonar-scanner',
+        '-Dsonar.projectKey=gearX_product_backend',
+        '-Dsonar.sources=.',
+        '-Dsonar.host.url=http://www.devopsninja.site:8880/',
+        "-Dsonar.token=$sonar_token"
+    ])
+}
+
                     }
                 }
             }
