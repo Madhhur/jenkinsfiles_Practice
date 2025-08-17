@@ -1,21 +1,19 @@
 @Library('My_Shared@main') _
 
 pipeline {
-    agent any   // or agent { label 'master' } if your node is actually called master
+    agent master   // or agent { label 'master' } if your node is actually called master
     
     stages {
         stage("first") {
             steps {
                 script {
+                    echo "========first stage========"
                     gitCheckout([
                         url: 'https://github.com/Madhhur/repo1.git',
                         branch: 'main',
                         credentialId: 'Madhhur'
                     ])
-                sh '''
-                  pwd
-                  ls -lrta
-                '''
+             
                 }
                
             }
