@@ -5,21 +5,23 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                script {
-                    // This calls your library method outside sandbox restrictions
-                   def config = [
-                        url: 'https://github.com/Madhhur/repo1.git',
-                        branch: 'main',
-                        credentialId: 'Madhhur'
-                        ]
-                    gitCheckout(config)
-                        sh '''
-                        echo "Checkout completed";
-                        pwd;
-                        ls -lrt;
-                        '''
-                    
-                }
+               script {
+    // Call your shared library method
+    def config = [
+        url: 'https://github.com/Madhhur/repo1.git',
+        branch: 'main',
+        credentialId: 'Madhhur'
+    ]
+    
+    gitCheckout(config)
+
+    sh '''
+        echo "Checkout completed"
+        pwd
+        ls -lrt
+    '''
+}
+
             }
         }
     }
