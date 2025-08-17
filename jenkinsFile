@@ -2,30 +2,27 @@
 
 pipeline {
     agent any
+
     stages {
         stage('Checkout') {
             steps {
-               script {
-                        def config = [
-                            url: 'https://github.com/Madhhur/node_backend-main.git',
-                            branch: 'main',
-                            credentialId: 'Madhhur'
-                        ]
-                        
-                        gitCheckout(config)
+                script {
+                    def config = [
+                        url: 'https://github.com/Madhhur/node_backend-main.git',
+                        branch: 'main',
+                        credentialId: 'Madhhur'
+                    ]
+                    gitCheckout(config)
 
-                        sh '''
-                            echo "Checkout completed"
-                            pwd
-                            ls -lrt
-                        '''
-                    }
-
-
-
+                    sh '''
+                        echo "Checkout completed"
+                        pwd
+                        ls -lrt
+                    '''
+                }
             }
         }
-         stages {
+
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('MySonarQubeServer') { 
@@ -33,9 +30,8 @@ pipeline {
                 }
             }
         }
-    }
-}
-       stage('Quality Gate') {
+
+        stage('Quality Gate') {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
@@ -43,21 +39,20 @@ pipeline {
             }
         }
 
-
-        stage('trivy scan') {
+        stage('Trivy Scan') {
             steps {
                 echo "Scanning the code"
                 sh 'echo "Build step executed"'
             }
         }
     }
-        post {
-                    always {
-                        echo "========always========"
-                        
-                    }
-                    success {
-                        echo "========pipeline executed successfully ========"
-                    }
-             }
+
+    post {
+        always {
+            echo "========always========"
+        }
+        success {
+            echo "========pipeline executed successfully ========"
+        }
+    }
 }
