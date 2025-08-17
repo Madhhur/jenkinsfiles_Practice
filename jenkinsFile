@@ -12,11 +12,12 @@ pipeline {
                         branch: 'main',
                         credentialId: 'Madhhur'
                     ])
-                }
                 sh '''
                   pwd
                   ls -lrta
                 '''
+                }
+               
             }
         }
     }
