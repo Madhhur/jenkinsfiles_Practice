@@ -13,7 +13,11 @@ pipeline {
                         credentialId: 'Madhhur'
                         ]
                     gitCheckout(config)
-                        
+                        sh '''
+                        echo "Checkout completed";
+                        pwd;
+                        ls -lrt;
+                        '''
                     
                 }
             }
