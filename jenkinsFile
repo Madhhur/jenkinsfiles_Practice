@@ -25,20 +25,37 @@ pipeline {
 
             }
         }
-        stage('Build') {
+        stage('Sonar Code Quality check') {
             steps {
-                echo "Building the project"
+                script {
+                    dir('./backend') {
+                        withCredentials([string(credentialsId: 'sonar_token', variable: 'sonar_token')]) {
+                            sh """
+                                sonar-scanner \
+                                  -Dsonar.projectKey=backend \
+                                  -Dsonar.sources=. \
+                                  -Dsonar.host.url=${env.SONAR_HOST_URL} \
+                                  -Dsonar.token=${SONAR_TOKEN}
+                            """
+                        }
+                    }
+                }
+            }
+        }
+        stage('trivy scan') {
+            steps {
+                echo "Scanning the code"
                 sh 'echo "Build step executed"'
             }
         }
     }
         post {
-                always {
-                    echo "========always========"
-                   
-                }
-                success {
-                    echo "========pipeline executed successfully ========"
-                }
-            }
+                    always {
+                        echo "========always========"
+                        
+                    }
+                    success {
+                        echo "========pipeline executed successfully ========"
+                    }
+             }
 }
