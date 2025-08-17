@@ -26,13 +26,11 @@ pipeline {
             }
         }
         stage('Sonar Code Quality check') {
-            steps {
+          steps {
                 withSonarQubeEnv('MySonarQubeServer') { 
                     sh '/opt/sonar/latest/bin/sonar-scanner -Dsonar.projectKey=gearX_product_backend -Dsonar.sources=.'
                 }
-
-                    }
-                }
+            }
             }
         }
        stage('Quality Gate') {
