@@ -1,4 +1,4 @@
-@Library('My_Shared') _
+@Library('My_Shared@main') _
 
 pipeline {
     agent any   // or agent { label 'master' } if your node is actually called master
