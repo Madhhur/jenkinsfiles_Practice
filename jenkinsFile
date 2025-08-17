@@ -27,17 +27,9 @@ pipeline {
         }
         stage('Sonar Code Quality check') {
             steps {
-                    script {
-                        dir('./backend') {
-                            withCredentials([string(credentialsId: 'sonar_token', variable: 'SONAR_TOKEN')]) {
-                            sh '''
-                            /opt/sonar/latest/bin/sonar-scanner \
-                            -Dsonar.projectKey=gearX_product_backend \
-                            -Dsonar.sources=. \
-                            -Dsonar.host.url=http://www.devopsninja.site:8880/ \
-                            -Dsonar.token=$SONAR_TOKEN
-                        '''
-                 }
+                withSonarQubeEnv('MySonarQubeServer') { 
+                    sh '/opt/sonar/latest/bin/sonar-scanner -Dsonar.projectKey=gearX_product_backend -Dsonar.sources=.'
+                }
 
                     }
                 }
