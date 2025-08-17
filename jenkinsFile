@@ -1,23 +1,19 @@
 @Library('My_Shared@main') _
 
 pipeline {
-   agent { label 'master' }   // or agent { label 'master' } if your node is actually called master
-    
+    agent any
     stages {
-        stage("first") {
+        stage('Checkout') {
             steps {
                 script {
-                    echo "========first stage========"
+                    // Run trusted library function without sandbox restriction
                     gitCheckout([
                         url: 'https://github.com/Madhhur/repo1.git',
                         branch: 'main',
                         credentialId: 'Madhhur'
                     ])
-             
                 }
-               
             }
         }
     }
-
 }
