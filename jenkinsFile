@@ -32,10 +32,10 @@ pipeline {
                         withCredentials([string(credentialsId: 'sonar_token', variable: 'sonar_token')]) {
                             sh """
                                 sonar-scanner \
-                                  -Dsonar.projectKey=backend \
+                                  -Dsonar.projectKey=gearX_product_backend \
                                   -Dsonar.sources=. \
                                   -Dsonar.host.url=${env.SONAR_HOST_URL} \
-                                  -Dsonar.token=${SONAR_TOKEN}
+                                  -Dsonar.token=${sonar_token}
                             """
                         }
                     }
