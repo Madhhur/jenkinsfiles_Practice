@@ -6,23 +6,39 @@ pipeline {
         stage('Checkout') {
             steps {
                script {
-    // Call your shared library method
-    def config = [
-        url: 'https://github.com/Madhhur/repo1.git',
-        branch: 'main',
-        credentialId: 'Madhhur'
-    ]
-    
-    gitCheckout(config)
+                        def config = [
+                            url: 'https://github.com/Madhhur/repo1.git',
+                            branch: 'main',
+                            credentialId: 'Madhhur'
+                        ]
+                        
+                        gitCheckout(config)
 
-    sh '''
-        echo "Checkout completed"
-        pwd
-        ls -lrt
-    '''
-}
+                        sh '''
+                            echo "Checkout completed"
+                            pwd
+                            ls -lrt
+                        '''
+                    }
+
+
 
             }
         }
+        stage('Build') {
+            steps {
+                echo "Building the project"
+                sh 'echo "Build step executed"'
+            }
+        }
     }
+        post {
+                always {
+                    echo "========always========"
+                    cleanWs()
+                }
+                success {
+                    echo "========pipeline executed successfully ========"
+                }
+            }
 }
