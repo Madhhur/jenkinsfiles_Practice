@@ -6,7 +6,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    // Run trusted library function without sandbox restriction
+                    // This calls your library method outside sandbox restrictions
                     gitCheckout([
                         url: 'https://github.com/Madhhur/repo1.git',
                         branch: 'main',
