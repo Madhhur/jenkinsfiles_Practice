@@ -1,12 +1,11 @@
 @Library('My_Shared') _
 
-pipeline{
-    agent{
-        label "master"
-    }
-    stages{
-        stage("first"){
-          steps {
+pipeline {
+    agent any   // or agent { label 'master' } if your node is actually called master
+    
+    stages {
+        stage("first") {
+            steps {
                 script {
                     gitCheckout([
                         url: 'https://github.com/Madhhur/repo1.git',
@@ -14,23 +13,24 @@ pipeline{
                         credentialId: 'Madhhur'
                     ])
                 }
-           sh '''
-           pwd
-           ls -lrta
-           '''
-            }   
+                sh '''
+                  pwd
+                  ls -lrta
+                '''
+            }
         }
     }
-    post{
-        always{
-            echo "========always========"
-        cleanWs()
+
+    post {
+        always {
+            echo "======== always ========"
+            cleanWs()
         }
-        success{
-            echo "========pipeline executed successfully ========"
+        success {
+            echo "======== pipeline executed successfully ========"
         }
-        failure{
-            echo "========pipeline execution failed========"
+        failure {
+            echo "======== pipeline execution failed ========"
         }
     }
-}   
+}
