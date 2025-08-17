@@ -1,7 +1,7 @@
 @Library('My_Shared@main') _
 
 pipeline {
-    agent master   // or agent { label 'master' } if your node is actually called master
+   agent { label 'master' }   // or agent { label 'master' } if your node is actually called master
     
     stages {
         stage("first") {
