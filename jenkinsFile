@@ -45,11 +45,44 @@ pipeline {
                 sh 'echo "Build step executed"'
             }
         }
+         stage('Docker Build, Trivy scan & Push using plugin') {
+            environment {
+                IMAGE_NAME = 'madhhur168/gearX_product_backend'
+                IMAGE_TAG = 'latest'
+                DOCKERFILE_SRC = 'Dockerfile'
+                DOCKER_CREDS = 'docker_hub'
+            }
+            steps {
+                script {
+                    docker.withRegistry('', "${DOCKER_CREDS}") {
+                        appImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}", "-f ${DOCKERFILE_SRC} .")
+                        appImage.push()
+                    }
+
+                    sh '''
+                    wget https://github.com/aquasecurity/trivy/blob/main/contrib/html.tpl
+                        trivy image --severity CRITICAL --format template --template "@html.tpl" -o trivy_image_scan_report.html "$IMAGE_NAME:$IMAGE_TAG"
+                        ls trivy_image_scan_report.html
+                    '''
+
+                    publishHTML (target : [
+                        reportName: 'Trivy Vulnerability Image Report',
+                        reportDir: '.',
+                        reportFiles: 'trivy_image_scan_report.html',
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                    ])
+                }
+            }
+        }
+
     }
 
     post {
         always {
             echo "========always========"
+            cleanWs()
         }
         success {
             echo "========pipeline executed successfully ========"
