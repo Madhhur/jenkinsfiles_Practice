@@ -47,7 +47,7 @@ pipeline {
         }
          stage('Docker Build, Trivy scan & Push using plugin') {
             environment {
-                IMAGE_NAME = 'madhhur168/gearX_product_backend'
+                IMAGE_NAME = 'madhhur168/gearx_product_backend'
                 IMAGE_TAG = 'latest'
                 DOCKERFILE_SRC = 'Dockerfile'
                 DOCKER_CREDS = 'docker_hub'
