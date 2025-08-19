@@ -87,8 +87,8 @@ ls trivy_image_scan_report.html
     //         cleanWs()
     //     }
     //     }
-        success {
-            echo "========pipeline executed successfully ========"
-        }
-    }
+    //     success {
+    //         echo "========pipeline executed successfully ========"
+    //     }
+    // }
 }
