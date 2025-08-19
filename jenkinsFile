@@ -78,15 +78,20 @@ ls -l trivy_image_scan_report.html
                 }
             }
         }
-
+  stage('Helm Lint') {
+     environment {
+        CHART_NAME = "my-frontend-chart"
+        RELEASE_NAME = "my-frontend"
+        NAMESPACE = "frontend"
     }
-           
-        stage('Helm Lint') {
             steps {
                 sh "helm lint ${CHART_NAME}"
             }
         }
 
+    }
+           
+      
 
     // post {
     //     always {
