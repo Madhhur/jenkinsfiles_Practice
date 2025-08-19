@@ -80,12 +80,13 @@ ls -l trivy_image_scan_report.html
         }
 
     }
-        stages {
+           
         stage('Helm Lint') {
             steps {
                 sh "helm lint ${CHART_NAME}"
             }
         }
+
 
     // post {
     //     always {
