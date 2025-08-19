@@ -80,7 +80,7 @@ ls -l trivy_image_scan_report.html
         }
   stage('Helm deployment') {
      environment {
-        CHART_NAME = ".my-frontend-chart"
+        CHART_NAME = "my-frontend-chart"
         RELEASE_NAME = "my-frontend"
         NAMESPACE = "frontend"
     }
