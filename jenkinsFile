@@ -95,7 +95,7 @@ ls -l trivy_image_scan_report.html
             }
         }
 
-    
+    }
            
       
 
