@@ -85,6 +85,7 @@ ls -l trivy_image_scan_report.html
         NAMESPACE = "frontend"
     }
         steps {
+                     withKubeConfig([credentialsId: 'kubeconfig']) {
                 sh """
                     helm upgrade --install ${RELEASE_NAME} ${CHART_NAME} \
                         --namespace ${NAMESPACE} \
@@ -92,6 +93,8 @@ ls -l trivy_image_scan_report.html
                         --values ${CHART_NAME}/values.yaml \
                         --atomic --wait
                 """
+ 
+}
             }
         }
 
