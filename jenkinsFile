@@ -79,14 +79,6 @@ ls -l trivy_image_scan_report.html
             }
         }
   stage('Helm deployment') {
-        when {
-            expression { return env.BRANCH_NAME == 'main' }
-        }
-        steps {
-            script {
-                echo "Deploying to Kubernetes using Helm"
-            }
-        }
      environment {
         CHART_NAME = "my-frontend-chart"
         RELEASE_NAME = "my-frontend"
@@ -103,7 +95,7 @@ ls -l trivy_image_scan_report.html
             }
         }
 
-    }
+    
            
       
 
