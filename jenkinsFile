@@ -83,7 +83,9 @@ ls trivy_image_scan_report.html
     post {
         always {
             echo "========always========"
+           node {
             cleanWs()
+        }
         }
         success {
             echo "========pipeline executed successfully ========"
