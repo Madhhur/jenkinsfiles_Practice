@@ -62,7 +62,9 @@ pipeline {
 
                     sh '''
                     #wget https://github.com/aquasecurity/trivy/blob/main/contrib/html.tpl
-                        trivy image --severity CRITICAL --format template --template "@html.tpl" -o trivy_image_scan_report.html "$IMAGE_NAME:$IMAGE_TAG"
+                        #trivy image --severity CRITICAL --format template --template "@html.tpl" -o trivy_image_scan_report.html "$IMAGE_NAME:$IMAGE_TAG"
+trivy image --severity CRITICAL --format html -o trivy_image_scan_report.html madhhur168/gearx_product_backend:latest
+
                         #ls trivy_image_scan_report.html
                     '''
 
