@@ -86,12 +86,14 @@ ls -l trivy_image_scan_report.html
     }
         steps {
                   withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-              helm upgrade --install my-frontend . \
+                sh """
+                    helm upgrade --install my-frontend . \
   --namespace frontend \
   --values ./values.yaml \
   --atomic \
   --wait
 
+                """
  
 }
             }
