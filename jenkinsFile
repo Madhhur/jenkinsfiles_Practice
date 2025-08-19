@@ -78,14 +78,28 @@ ls -l trivy_image_scan_report.html
                 }
             }
         }
-  stage('Helm Lint') {
+  stage('Helm deployment') {
+        when {
+            expression { return env.BRANCH_NAME == 'main' }
+        }
+        steps {
+            script {
+                echo "Deploying to Kubernetes using Helm"
+            }
+        }
      environment {
         CHART_NAME = "my-frontend-chart"
         RELEASE_NAME = "my-frontend"
         NAMESPACE = "frontend"
     }
-            steps {
-                sh "helm lint ${CHART_NAME}"
+        steps {
+                sh """
+                    helm upgrade --install ${RELEASE_NAME} ${CHART_NAME} \
+                        --namespace ${NAMESPACE} \
+                        --create-namespace \
+                        --values ${CHART_NAME}/values.yaml \
+                        --atomic --wait
+                """
             }
         }
 
