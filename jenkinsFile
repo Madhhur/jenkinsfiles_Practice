@@ -80,19 +80,17 @@ ls -l trivy_image_scan_report.html
         }
   stage('Helm deployment') {
      environment {
-        CHART_NAME = "my-frontend-chart"
+        CHART_NAME = "./testing/my-frontend-chart"
         RELEASE_NAME = "my-frontend"
         NAMESPACE = "frontend"
     }
         steps {
                   withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
                 sh """
-                    helm upgrade --install my-frontend . \
-  --namespace frontend \
-  --values ./values.yaml \
-  --atomic \
-  --wait
-
+                    helm upgrade --install ${RELEASE_NAME} ${CHART_NAME} \
+                        --namespace ${NAMESPACE} \
+                        --values ${CHART_NAME}/values.yaml \
+                        --atomic --wait
                 """
  
 }
