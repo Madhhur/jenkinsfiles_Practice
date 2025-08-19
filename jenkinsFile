@@ -60,11 +60,12 @@ pipeline {
                         appImage.push()
                     }
 
-                    sh '''
-              trivy image --severity CRITICAL --scanners vuln --format html -o trivy_image_scan_report.html "$IMAGE_NAME:$IMAGE_TAG"
-ls trivy_image_scan_report.html
+                sh '''
+wget -O html.tpl https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl
+trivy image --severity CRITICAL --scanners vuln --format template --template @html.tpl -o trivy_image_scan_report.html "$IMAGE_NAME:$IMAGE_TAG"
+ls -l trivy_image_scan_report.html
+'''
 
-                    '''
 
                     publishHTML (target : [
                         reportName: 'Trivy Vulnerability Image Report',
