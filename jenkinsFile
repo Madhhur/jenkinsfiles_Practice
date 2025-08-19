@@ -18,6 +18,7 @@ pipeline {
                         echo "Checkout completed"
                         pwd
                         ls -lrt
+                        df -h
                     '''
                 }
             }
@@ -31,7 +32,7 @@ pipeline {
             }
         }
 
-        stage('Quality Gate') {
+        stage('Sonar Quality Gate') {
             steps {
                  timeout(time: 3, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
@@ -60,7 +61,7 @@ pipeline {
                     }
 
                     sh '''
-                    wget https://github.com/aquasecurity/trivy/blob/main/contrib/html.tpl
+                    #wget https://github.com/aquasecurity/trivy/blob/main/contrib/html.tpl
                         trivy image --severity CRITICAL --format template --template "@html.tpl" -o trivy_image_scan_report.html "$IMAGE_NAME:$IMAGE_TAG"
                         ls trivy_image_scan_report.html
                     '''
